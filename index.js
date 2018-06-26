@@ -7,6 +7,7 @@ function main() {
     const delay = process.argv[3];
     const dir = new DirWatcher(path, delay);
     const importer = new Importer(dir);
+    importer.importSync(path);
     importer.on('import', (path) => {
         importer.importSync(path);
     });
