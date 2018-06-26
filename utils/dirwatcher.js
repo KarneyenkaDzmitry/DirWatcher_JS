@@ -2,7 +2,6 @@
 
 const EventEmitter = require('events');
 const fs = require('fs');
-const paths = require('path');
 
 class DirWatcher extends EventEmitter {
     constructor(path, delay) {
@@ -13,9 +12,9 @@ class DirWatcher extends EventEmitter {
     watch() {
         let base = fs.statSync(this.path).mtimeMs;
         setInterval(() => {
-            let mark = fs.statSync(this.path).mtimeMs;
-            if (base < mark) {
-                base = mark;
+            let ind = fs.statSync(this.path).mtimeMs;
+            if (base < ind) {
+                base = ind;
                 this.emit('changed');
             } else {
                 console.log(`I keep an eye on ${this.path} directory with delay ${this.delay}.`);

@@ -1,6 +1,8 @@
 'use strict';
 const EventEmitter = require('events');
 const fs = require('fs');
+const p = require('path');
+const convertor = require('./csv_to_json.js');
 class Importer extends EventEmitter {
     constructor(dirwatcher) {
         super();
@@ -43,38 +45,12 @@ class Importer extends EventEmitter {
             const elPath = fs.realpathSync(path) + '\\' + element;
             const stats = fs.statSync(elPath);
             if (stats.isFile && element.endsWith('.csv')) {
-                //console.log(`Path [${elPath}]`);
-                this.convert(elPath);
+                console.log('There should be run csv to json convertor with saving into archive directory.');
+                // const content = fs.readFileSync(elPath, "utf8");
+                // fs.writeFileSync(`./archive/${p.basename(element, '.csv')}.json`,convertor.convert(elPath), 'utf8');
             }
         });
-        console.log('Synchronium method of realisation of convertion and archive CSV - files into json');
-    }
-    convert(path) {
-        let content = fs.readFileSync(path, "utf8").split('\r\n');
-        //content = content..split('\n')
-        const keys = content[0].split(',');
-        console.log(content.length);
-        content.splice(0, 1);
-        console.log(content.length);
-        console.log(keys);
-        let result = '';
-        for (let j = 0; j<content.length; j++) {
-            const values = content[j].split(',');
-            result += `{`;
-            for (let i = 0; i < keys.length; i++) {
-                if (i !== keys.length - 1) {
-                    result += `${keys[i]}:${values[i]},`;
-                } else {
-                    result += `${keys[i]}:${values[i]}`;
-                }
-            }
-            if (j !== content.length - 1) {
-                result += `},\n`;
-            } else {
-                result += `}`;
-            }
-        };
-        console.log(result);
+        //console.log('Synchronium method of realisation of convertion and archive CSV - files into json');
     }
 }
 
